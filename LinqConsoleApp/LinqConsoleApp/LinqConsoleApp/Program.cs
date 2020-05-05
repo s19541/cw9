@@ -8,7 +8,7 @@ namespace LinqConsoleApp
         {
             var d = new LinqSamples();
             d.LoadData();
-            d.Przyklad3();
+            d.Przyklad10Button_Click();
         }
     }
 }

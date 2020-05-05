@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -214,7 +215,7 @@ namespace LinqConsoleApp
         /// </summary>
         public void Przyklad2()
         {
-            var res = Emps.Where(emp => emp.Job == "Frontend programmer" && emp.SAlary > 1000).OrderByDescending(emp => emp.Ename);
+            var res = Emps.Where(emp => emp.Job == "Frontend programmer" && emp.Salary > 1000).OrderByDescending(emp => emp.Ename);
         }
 
         /// <summary>
@@ -230,7 +231,7 @@ namespace LinqConsoleApp
         /// </summary>
         public void Przyklad4()
         {
-            var res = Emps.Where(emp => emp.Salary == Emps.Max(emp => emp.Salary));
+            var res = Emps.Where(emp => emp.Salary == Emps.Max(emp2 => emp2.Salary));
         }
 
         /// <summary>
@@ -294,20 +295,28 @@ namespace LinqConsoleApp
         /// </summary>
         public void Przyklad10Button_Click()
         {
-            var res = (Emps.Select(e => new
+            var res = Emps.Select(e => new
             {
-
                 e.Ename,
                 e.Job,
-                e.HireDate
+                e.HireDate,
+            }).Union(
+                new List<dynamic>()
+                {
+                    new {
+                        Ename = "Brak wartosci",
+                        Job = (string)null,
+                        HireDate = (DateTime?)null
+                    }
+                });
 
-            })).Union(new
+            foreach (var item in res)
             {
-                Ename = "Brak wartosci",
-                Job = (string)null,
-                Hiredate = (string)null
-
-            });
+                var hireDate = ((DateTime?)item.HireDate)?.ToString();
+                Console.WriteLine((string)item.Ename ?? "NULL");
+                Console.WriteLine((string)item.Job ?? "NULL");
+                Console.WriteLine(hireDate ?? "NULL");
+            }
         }
 
         //Znajdź pracownika z najwyższą pensją wykorzystując metodę Aggregate()
